@@ -201,6 +201,12 @@ gulp.task('api:serve', ['lint'],() => {
   });
 });
 
+gulp.task('api:cluster', ['lint'],() => {
+  gulpNodemon({ 
+    script: 'api/start_clusters.js',
+  });
+});
+
 gulp.task('api:tests', ['lint'], (done) => {
   let error;
   return gulp.src('api/tests/**/*.js', {

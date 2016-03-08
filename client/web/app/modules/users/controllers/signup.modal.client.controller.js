@@ -14,8 +14,7 @@
     vm.enabled = true;
     // User credentials
     vm.credentials = {
-      firstName: undefined,
-      lastName: undefined,
+      name: undefined,
       email: undefined,
       password: undefined,
       error: undefined,
@@ -98,24 +97,13 @@
       var res = true;
 
       // Validate Name
-      if ((field && field === 'firstname') || !field) {
-        if ((typeof vm.credentials.firstName !== 'undefined') && (vm.credentials.firstName.trim() !== '')) {
+      if ((field && field === 'name') || !field) {
+        if ((typeof vm.credentials.name !== 'undefined') && (vm.credentials.name.trim() !== '')) {
           res &= true;
-          vm.messages.firstName = null;
+          vm.messages.name = null;
         } else {
           res &= false;
-          vm.messages.firstName = "Please insert your first name";
-        }
-      }
-
-      // Validate Last Name
-      if ((field && field === 'lastname') || !field) {
-        if ((typeof vm.credentials.lastName !== 'undefined') && (vm.credentials.lastName.trim() !== '')) {
-          res &= true;
-          vm.messages.lastName = null;
-        } else {
-          res &= false;
-          vm.messages.lastName = "Please insert your last name";
+          vm.messages.name = "Please insert your name";
         }
       }
 

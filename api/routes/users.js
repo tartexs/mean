@@ -1,7 +1,7 @@
 module.exports = app => {
   const Users = app.db.models.Users;
 
-  app.route('/user')
+  app.route('/api/v1/users/me')
     .all(app.auth.authenticate())
     /**
      * @api {get} /user Return the authenticated user's data
@@ -81,7 +81,7 @@ module.exports = app => {
    * @apiErrorExample {json} Register error
    *    HTTP/1.1 412 Precondition Failed
    */
-  app.post('/users', (req, res) => {
+  app.post('/api/v1/users', (req, res) => {
     Users.create(req.body)
       .then(result => res.json(result))
       .catch(error => {

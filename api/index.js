@@ -11,6 +11,7 @@ consign({
   .then('db.js')
   .then('auth.js')
   .then('config/middlewares.js')
+  .then('services')
   .then('routes')
   .then('config/boot.js')
   .into(app);

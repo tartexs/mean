@@ -46,22 +46,9 @@
         .then(loginCompleted)
         .catch(loginFailed);
 
-      // if login completed close modal, go to booking list
+      // if login completed close modalt
       function loginCompleted(user) {
         $uibModalInstance.close();
-        // redirect
-        if(user.roles.indexOf('super') !== -1) {
-          $state.go('admin.panel')
-        } else {
-          if(user.roles.indexOf('vendor') !== -1){
-            $state.go('dashboard.index')
-          } else {
-              if ($state.current.name === 'password-reset')
-                $state.go('home');
-              else
-                $state.go('booking.me');
-          }
-        }
       }
 
       // show error if login failed
@@ -69,7 +56,7 @@
         // re enable login
         vm.enabled = true;
         // show error
-        vm.messages.error = err.error;
+        vm.messages.error = err;
       }
     }
 

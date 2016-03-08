@@ -6,6 +6,7 @@
 
     <div class="hs-login pull-right">
       <button id="openloginmodal" data-ng-hide="hc.authentication.user" class="btn btn-border" data-ng-click="hc.openLogin()">Login</button>
+      <span data-ng-show="hc.authentication.user">{{hc.authentication.user.name}}</span>
       <button id="logoutbutton" data-ng-show="hc.authentication.user" class="btn btn-border" data-ng-click="hc.logout()">Logout</button>
     </div>
   </div>

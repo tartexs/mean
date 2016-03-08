@@ -1,7 +1,7 @@
 module.exports = app => {
   const Tasks = app.db.models.Tasks;
 
-  app.route('/tasks')
+  app.route('/api/v1/tasks')
     .all(app.auth.authenticate())
     /**
      * @api {get} /tasks List the user's tasks
@@ -75,7 +75,7 @@ module.exports = app => {
         });
     });
 
-  app.route('/tasks/:id')
+  app.route('/api/v1/tasks/:id')
     .all(app.auth.authenticate())
     /**
      * @api {get} /tasks/:id Get a task

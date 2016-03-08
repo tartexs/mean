@@ -6,9 +6,9 @@
 		.module('users')
 		.factory('Authentication', Authentication);
 
-	Authentication.$inject = ['$rootScope', '$state', '$localStorage', '$location', 'MEANRestangular'];
+	Authentication.$inject = ['$rootScope', '$state', '$localStorage', 'MEANRestangular'];
 
-  function Authentication($rootScope, $state, $localStorage, $location, MEANRestangular) {
+  function Authentication($rootScope, $state, $localStorage, MEANRestangular) {
     var auth = {
       user: $localStorage.user,
       login: login,
@@ -28,18 +28,12 @@
       MEANRestangular.setDefaultHeaders(headers);
     }
 
-    $rootScope.$on('user-invalid-token', function() {
-      auth.logout();
-    });
-
     return auth;
 
-    // implementations //
+    // implementations
 
     function getToken() {
-      if ($localStorage.token) {
-        return $localStorage.token;
-      }
+      return $localStorage.token;
     }
 
     /**
@@ -47,7 +41,7 @@
      * param credentials: {email: user_email, password: user_password}
      */
     function login(credentials) {
-      return MEANRestangular.one('auth').post('signin', credentials)
+      return MEANRestangular.all('token').post(credentials)
         .then(loginCompleted)
         .catch(loginFailed);
 
@@ -68,8 +62,7 @@
       }
 
       function loginFailed(err) {
-        console.log('loginFailed', err);
-        throw err.data;
+        throw 'Login Failed';
       }
     }
 
@@ -100,7 +93,7 @@
      * param credentials: {firstName, lastName, email, password, ...}
      */
     function signup(credentials) {
-      return MEANRestangular.one('auth').post('signup', credentials)
+      return MEANRestangular.all('users').post(credentials)
         .then(signupCompleted)
         .catch(signupFailed);
 

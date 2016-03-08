@@ -20,7 +20,7 @@ describe('Routes: Tasks', () => {
   describe('GET /user', () => {
     describe('status 200', () => {
       it('returns an authenticated user', done => {
-        request.get('/user')
+        request.get('/api/v1/users/me')
           .set('Authorization', `JWT ${token}`)
           .expect(200)
           .end((err, res) => {
@@ -34,7 +34,7 @@ describe('Routes: Tasks', () => {
   describe('DELETE /user', () => {
     describe('status 204', () => {
       it('deletes an authenticated user', done => {
-        request.delete('/user')
+        request.delete('/api/v1/users/me')
           .set('Authorization', `JWT ${token}`)
           .expect(204)
           .end((err, res) => done(err));
@@ -44,7 +44,7 @@ describe('Routes: Tasks', () => {
   describe('POST /users', () => {
     describe('status 200', () => {
       it('creates a new user', done => {
-        request.post('/users')
+        request.post('/api/v1/users')
           .send({
             name: 'Mary',
             email: 'mary@mail.net',

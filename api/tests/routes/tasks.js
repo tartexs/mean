@@ -36,7 +36,7 @@ describe('Routes: Tasks', () => {
   describe('GET /tasks', () => {
     describe('status 200', () => {
       it('returns a list of tasks', done => {
-        request.get('/tasks')
+        request.get('/api/v1/tasks')
           .set('Authorization', `JWT ${token}`)
           .expect(200)
           .end((err, res) => {
@@ -51,7 +51,7 @@ describe('Routes: Tasks', () => {
   describe('POST /tasks', () => {
     describe('status 200', () => {
       it('creates a new task', done => {
-        request.post('/tasks')
+        request.post('/api/v1/tasks')
           .set('Authorization', `JWT ${token}`)
           .send({ title: 'Run' })
           .expect(200)
@@ -66,7 +66,7 @@ describe('Routes: Tasks', () => {
   describe('GET /tasks/:id', () => {
     describe('status 200', () => {
       it('returns one task', done => {
-        request.get(`/tasks/${fakeTask.id}`)
+        request.get(`/api/v1/tasks/${fakeTask.id}`)
           .set('Authorization', `JWT ${token}`)
           .expect(200)
           .end((err, res) => {
@@ -77,7 +77,7 @@ describe('Routes: Tasks', () => {
     });
     describe('status 404', () => {
       it('throws error when task not exist', done => {
-        request.get('/tasks/0')
+        request.get('/api/v1/tasks/0')
           .set('Authorization', `JWT ${token}`)
           .expect(404)
           .end((err, res) => done(err));
@@ -87,7 +87,7 @@ describe('Routes: Tasks', () => {
   describe('PUT /tasks/:id', () => {
     describe('status 204', () => {
       it('updates a task', done => {
-        request.put(`/tasks/${fakeTask.id}`)
+        request.put(`/api/v1/tasks/${fakeTask.id}`)
           .set('Authorization', `JWT ${token}`)
           .send({
             title: 'Travel',
@@ -101,7 +101,7 @@ describe('Routes: Tasks', () => {
   describe('DELETE /tasks/:id', () => {
     describe('status 204', () => {
       it('removes a task', done => {
-        request.delete(`/tasks/${fakeTask.id}`)
+        request.delete(`/api/v1/tasks/${fakeTask.id}`)
           .set('Authorization', `JWT ${token}`)
           .expect(204)
           .end((err, res) => done(err));

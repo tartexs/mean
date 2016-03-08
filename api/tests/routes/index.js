@@ -1,7 +1,7 @@
 describe('Routes: Index', () => {
   describe('GET /', () => {
     it('returns the API status', done => {
-      request.get('/')
+      request.get('/api/v1')
         .expect(200)
         .end((err, res) => {
           const expected = { status: 'mean API' };

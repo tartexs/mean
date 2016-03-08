@@ -117,6 +117,7 @@ gulp.task('web:serve', ['styles', 'fonts'], () => {
   browserSync({
     notify: false,
     port: 9000,
+    https: true,
     server: {
       baseDir: ['.tmp', 'client/web/app'],
       routes: {
@@ -144,6 +145,7 @@ gulp.task('web:serve:dist', () => {
   browserSync({
     notify: false,
     port: 9000,
+    https: true,
     server: {
       baseDir: ['client/web/dist']
     }
@@ -155,6 +157,7 @@ gulp.task('web:serve:test', () => {
     notify: false,
     port: 9000,
     ui: false,
+    https: true,
     server: {
       baseDir: 'client/web/test',
       routes: {

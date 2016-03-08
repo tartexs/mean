@@ -3,27 +3,21 @@
 
   angular
     .module('core')
-    .controller('ModalConfirmController', ModalConfirmController);
+    .controller('ModalAlertController', ModalAlertController);
 
-  ModalConfirmController.$inject = ['$uibModalInstance', 'title', 'content', 'callback'];
+  ModalAlertController.$inject = ['$uibModalInstance', 'title', 'content'];
 
   /* @ngInject */
-  function ModalConfirmController($uibModalInstance, title, content, callback) {
+  function ModalAlertController($uibModalInstance, title, content) {
     var vm = this;
     vm.close = closeModal;
     vm.title = title;
     vm.content = content;
-    vm.accept = acceptQuestion;
 
     //
-
+    
     function closeModal() {
       $uibModalInstance.dismiss();
-    }
-
-    function acceptQuestion() {
-      $uibModalInstance.dismiss();
-      callback();
     }
   }
 })();

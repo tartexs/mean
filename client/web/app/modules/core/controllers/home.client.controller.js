@@ -1,22 +1,41 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('core')
-        .controller('HomeController', HomeController);
+  angular
+    .module('core')
+    .controller('HomeController', HomeController);
 
-    HomeController.$inject = [];
+  HomeController.$inject = ['$rootScope', 'Tasks', 'Alert', 'Authentication'];
 
-    /* @ngInject */
-    function HomeController() {
-        var vm = this;
-        vm.title = 'HomeController';
+  /* @ngInject */
+  function HomeController($rootScope, Tasks, Alert, Authentication) {
+    var vm = this;
+    
+    activate();
+    
+    $rootScope.$on('user-login', activate);
+    $rootScope.$on('user-logout', cleanTasks);
 
-        activate();
+    ////////////////
 
-        ////////////////
+    function activate() {
+      if(Authentication.user) {
+        Tasks.getAll()
+          .then(successResponse)
+          .catch(failedResponse);
+      }
 
-        function activate() {
-        }
+      function successResponse(tasks) {
+        vm.tasks = tasks;
+      }
+
+      function failedResponse(err) {
+        Alert.display(err);
+      }
     }
+
+    function cleanTasks() {
+      vm.tasks = []; 
+    }
+  }
 })();

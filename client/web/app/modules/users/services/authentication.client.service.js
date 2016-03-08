@@ -23,7 +23,7 @@
     if ($localStorage.token) {
       // Update previous headers
       var headers = MEANRestangular.defaultHeaders;
-      headers['x-access-token'] = $localStorage.token;
+      headers['Authorization'] = 'JWT ' + $localStorage.token;
       // Set default headers
       MEANRestangular.setDefaultHeaders(headers);
     }
@@ -51,7 +51,7 @@
         $localStorage.token = response.token;
         // Update previous headers
         var headers = MEANRestangular.defaultHeaders;
-        headers['x-access-token'] = $localStorage.token;
+        headers['Authorization'] = 'JWT ' + $localStorage.token;
         // Set default headers
         MEANRestangular.setDefaultHeaders(headers);
 
@@ -78,7 +78,7 @@
 
       // Update previous headers
       var headers = MEANRestangular.defaultHeaders;
-      headers['x-access-token'] = undefined;
+      headers['Authorization'] = undefined;
       // Set default headers
       MEANRestangular.setDefaultHeaders(headers);
 

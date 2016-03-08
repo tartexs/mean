@@ -20,7 +20,7 @@
     function display(title, content) {
       var modalInstance = $uibModal.open({
         animation: true,
-        templateUrl: 'modules/core/templates/modal_alert.template.html',
+        templateUrl: 'modules/core/templates/modal_alert.client.template.html',
         windowClass: 'hs-modal',
         controller: 'ModalAlertController as mac',
         resolve: {
@@ -39,7 +39,7 @@
     function confirm(title, content, callback) {
       var modalInstance = $uibModal.open({
         animation: true,
-        templateUrl: 'modules/core/templates/modal_confirm.template.html',
+        templateUrl: 'modules/core/templates/modal_confirm.client.template.html',
         windowClass: 'hs-modal',
         controller: 'ModalConfirmController as mcc',
         resolve: {

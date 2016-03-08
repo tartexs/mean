@@ -7,6 +7,7 @@ import browserSync from 'browser-sync';
 import del from 'del';
 import mocha from 'gulp-mocha';
 import {stream as wiredep} from 'wiredep';
+import modRewrite  from 'connect-modrewrite';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -120,6 +121,11 @@ gulp.task('web:serve', ['styles', 'fonts'], () => {
     https: true,
     server: {
       baseDir: ['.tmp', 'client/web/app'],
+      middleware: [
+          modRewrite([
+              '!\\.\\w+$ /index.html [L]'
+          ])
+      ],      
       routes: {
         '/bower_components': 'client/web/bower_components'
       }
@@ -147,6 +153,11 @@ gulp.task('web:serve:dist', () => {
     port: 9000,
     https: true,
     server: {
+      middleware: [
+          modRewrite([
+              '!\\.\\w+$ /index.html [L]'
+          ])
+      ],      
       baseDir: ['client/web/dist']
     }
   });
@@ -160,6 +171,11 @@ gulp.task('web:serve:test', () => {
     https: true,
     server: {
       baseDir: 'client/web/test',
+      middleware: [
+          modRewrite([
+              '!\\.\\w+$ /index.html [L]'
+          ])
+      ],      
       routes: {
         '/bower_components': 'client/web/bower_components'
       }

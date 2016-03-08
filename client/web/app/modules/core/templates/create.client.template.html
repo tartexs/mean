@@ -1,0 +1,14 @@
+<main>
+  <div class="hs-header-container">
+    <div class="container" data-ng-include="'/modules/core/templates/header.client.template.html'"></div>
+  </div>
+  <form data-ng-submit="cc.create()">
+    <div>
+      <input type="text" placeholder="Title" data-ng-model="cc.task.title">
+    </div>
+    <div>
+      <input type="submit">
+    </div>
+  </form>
+</main>
+

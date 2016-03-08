@@ -1,0 +1,14 @@
+npm-debug.log
+node_modules
+client/web/bower_components
+client/web/dist
+*.sqlite
+.tmp
+logs
+
+# osx
+.DS_Store
+
+# emacs
+*~
+\#*

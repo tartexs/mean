@@ -1,4 +1,4 @@
-#Based  
+#MEAN RELATIONAL BOILERPLATE
 
 A boilerplate using NodeJs, Express, Sequelize, Apidoc, Eslint, Mocha, Cluster and the best practices.
 

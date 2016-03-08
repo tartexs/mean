@@ -29,7 +29,14 @@
 <!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-<div data-ui-view></div>
+<main>
+  <div class="hs-header-container">
+    <div class="container" data-ng-include="'/modules/core/templates/header.client.template.html'"></div>
+  </div>
+  <div data-ui-view>
+  </div>
+</main>
+
 
 <!-- build:js /scripts/vendor.js -->
 <!-- bower:js -->
@@ -81,15 +88,18 @@
 <script src="modules/core/services/mean_restangular.client.service.js"></script>
 <script src="modules/core/services/seo.client.service.js"></script>
 <script src="modules/core/services/alert.client.service.js"></script>
-<script src="modules/core/services/tasks.client.service.js"></script>
 <script src="modules/core/services/interceptors/auth.interceptor.client.service.js"></script>
 <script src="modules/core/controllers/home.client.controller.js"></script>
 <script src="modules/core/controllers/header.client.controller.js"></script>
 <script src="modules/core/controllers/head.client.controller.js"></script>
 <script src="modules/core/controllers/modal_alert.client.controller.js"></script>
 <script src="modules/core/controllers/modal_confirm.client.controller.js"></script>
-<script src="modules/core/controllers/create.client.controller.js"></script>
 
+<script src="modules/tasks/tasks.client.module.js"></script>
+<script src="modules/tasks/routes/tasks.client.routes.js"></script>
+<script src="modules/tasks/services/tasks.client.service.js"></script>
+<script src="modules/tasks/controllers/tasks.create.client.controller.js"></script>
+<script src="modules/tasks/controllers/tasks.list.client.controller.js"></script>
 
 <script src="modules/users/users.client.module.js"></script>
 <script src="modules/users/routes/users.client.routes.js"></script>

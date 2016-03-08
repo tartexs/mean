@@ -1,12 +1,2 @@
-<main>
-  <div class="hs-header-container">
-    <div class="container" data-ng-include="'/modules/core/templates/header.client.template.html'"></div>
-  </div>
-  <div>
-    <h1>Tasks</h1>
-    <ul>
-      <li data-ng-repeat="task in hc.tasks">{{task.title}}</li>
-    </ul>
-    <a ui-sref="tasksCreate">Create new task</a>
-  </div>
-</main>
+<h1>Tasks</h1>
+<a ui-sref="tasks.list">Tasks</a>

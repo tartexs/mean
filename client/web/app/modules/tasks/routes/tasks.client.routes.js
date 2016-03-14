@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   // Setting up route
@@ -18,7 +18,7 @@
     .state('tasks', {
       url: '/tasks',
       abstract: true,
-      templateUrl: prefix + 'tasks.client.template.html'
+      templateUrl: prefix + 'tasks.client.template.html',
     })
     .state('tasks.list', {
       url: '/list',
@@ -31,9 +31,6 @@
       abstract: false,
       templateUrl: prefix + 'tasks.create.client.template.html',
       controller: 'CreateTasksController as ctc',
-    })
-
-    ;
-
+    });
   }
-})();
+}());

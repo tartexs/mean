@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,11 +7,10 @@
 
   HeaderController.$inject = ['$uibModal', '$state', 'Authentication', 'AuthenticationModal'];
 
-  /* @ngInject */
   function HeaderController($uibModal, $state, Authentication, AuthenticationModal) {
     var vm = this;
     vm.openLogin = AuthenticationModal.openLogin;
     vm.logout = Authentication.logout;
     vm.authentication = Authentication;
   }
-})();
+}());

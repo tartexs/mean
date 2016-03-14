@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,15 +7,12 @@
 
   ModalConfirmController.$inject = ['$uibModalInstance', 'title', 'content', 'callback'];
 
-  /* @ngInject */
   function ModalConfirmController($uibModalInstance, title, content, callback) {
     var vm = this;
     vm.close = closeModal;
     vm.title = title;
     vm.content = content;
     vm.accept = acceptQuestion;
-
-    //
 
     function closeModal() {
       $uibModalInstance.dismiss();
@@ -26,4 +23,4 @@
       callback();
     }
   }
-})();
+}());

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,9 +7,8 @@
 
   HeadController.$inject = ['Seo'];
 
-  /* @ngInject */
   function HeadController(Seo) {
     var vm = this;
     vm.Seo = Seo;
   }
-})();
+}());

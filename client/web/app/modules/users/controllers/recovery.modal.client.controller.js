@@ -1,25 +1,27 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('users')
     .controller('PasswordRecoveryController', PasswordRecoveryController);
 
-  PasswordRecoveryController.$inject = ['$uibModalInstance', 'Authentication', 'Alert', 'AuthenticationModal'];
+  PasswordRecoveryController.$inject = [
+    '$uibModalInstance',
+    'Authentication', 'Alert', 'AuthenticationModal'];
 
-  /* @ngInject */
-  function PasswordRecoveryController($uibModalInstance, Authentication, Alert, AuthenticationModal) {
+  function PasswordRecoveryController($uibModalInstance,
+    Authentication, Alert, AuthenticationModal) {
     var vm = this;
 
     // User credentials (email)
     vm.credentials = {
-      email: undefined
+      email: undefined,
     };
     // Modal messages
     vm.messages = {
       error: undefined,
       email: undefined,
-      success: undefined
+      success: undefined,
     };
     // Modal interaction
     vm.enabled = true;
@@ -30,10 +32,11 @@
     /**
      * Do password recovery
      */
-    function doRecovery(){
+    function doRecovery() {
       // Check data
-      if (!isValidData() || !vm.enabled)
+      if (!isValidData() || !vm.enabled) {
         return;
+      }
 
       // Disable interaction
       vm.enabled = false;
@@ -51,7 +54,7 @@
         // Close recovery modal (this)
         $uibModalInstance.dismiss();
         // Open alert modal with success text, and after close go to login
-        Alert.display("Succes", message).result
+        Alert.display('Succes', message).result
           .then(AuthenticationModal.openLogin)
           .catch(AuthenticationModal.openLogin);
       }
@@ -71,14 +74,14 @@
      * Check if the form has valid data
      */
     function isValidData(field) {
-      // Clear global error message
-      vm.messages.error = null;
-
       // validation result
       var res = true;
 
       // Email validation
       var regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+      // Clear global error message
+      vm.messages.error = null;
 
       // Validate Email
       if ((field && field === 'email') || !field) {
@@ -87,12 +90,11 @@
           vm.messages.email = null;
         } else {
           res &= false;
-          vm.messages.email = "Please insert a valid email address";
+          vm.messages.email = 'Please insert a valid email address';
         }
       }
 
       return res;
     }
-
   }
-})();
+}());

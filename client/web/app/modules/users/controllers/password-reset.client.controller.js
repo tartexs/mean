@@ -1,27 +1,28 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('users')
     .controller('PasswordResetController', PasswordResetController);
 
-  PasswordResetController.$inject = ['$state', '$stateParams', 'Seo', 'Alert', 'Authentication', 'AuthenticationModal'];
+  PasswordResetController.$inject = ['$state', '$stateParams',
+    'Seo', 'Alert', 'Authentication', 'AuthenticationModal'];
 
-  /* @ngInject */
-  function PasswordResetController($state, $stateParams, Seo, Alert, Authentication, AuthenticationModal) {
+  function PasswordResetController($state, $stateParams,
+    Seo, Alert, Authentication, AuthenticationModal) {
     var vm = this;
     // Reset button text
     vm.buttonText = 'Please wait...';
     // User credentials (password)
     vm.credentials = {
       newPassword: undefined,
-      verifyPassword: undefined
+      verifyPassword: undefined,
     };
     // Messages
     vm.messages = {
       error: undefined,
       password: undefined,
-      check: undefined
+      check: undefined,
     };
     // Interaction
     vm.enabled = true;
@@ -37,7 +38,7 @@
 
     initialize();
 
-    ///////////////
+    // /////////////
 
     /**
      * View initialize, check for valid reset token
@@ -58,7 +59,7 @@
       function validateCompleted(data) {
         // If user logged then logut before continue
         if (Authentication.user) {
-          Authentication.logout
+          Authentication.logout();
         }
         // Reset button text
         vm.buttonText = 'Reset';
@@ -82,8 +83,9 @@
      */
     function doReset() {
       // first validate data
-      if (!isValidData())
+      if (!isValidData()) {
         return;
+      }
 
       // Disable interaction
       vm.enabled = false;
@@ -140,18 +142,20 @@
      * Check if the form has valid data
      */
     function isValidData(field) {
-      // Clear global error message
-      vm.messages.error = null;
-
       // validation result
       var res = true;
 
+      // Clear global error message
+      vm.messages.error = null;
+
       // Validate Password
       if ((field && field === 'password') || !field) {
-        if ((typeof vm.credentials.newPassword !== 'undefined') && (vm.credentials.newPassword.trim() !== '')) {
-          if ((typeof vm.credentials.verifyPassword !== 'undefined') && (vm.credentials.newPassword !== vm.credentials.verifyPassword)) {
+        if ((typeof vm.credentials.newPassword !== 'undefined') &&
+          (vm.credentials.newPassword.trim() !== '')) {
+          if ((typeof vm.credentials.verifyPassword !== 'undefined') &&
+            (vm.credentials.newPassword !== vm.credentials.verifyPassword)) {
             res &= false;
-            vm.messages.check = "Password are no the same";
+            vm.messages.check = 'Password are no the same';
           } else {
             res &= true;
             vm.messages.check = null;
@@ -159,28 +163,29 @@
           }
         } else {
           res &= false;
-          vm.messages.password = "Please insert a new account password";
+          vm.messages.password = 'Please insert a new account password';
         }
       }
 
       // Verify Password
       if ((field && field === 'check') || !field) {
-        if ((typeof vm.credentials.verifyPassword !== 'undefined') && (vm.credentials.verifyPassword.trim() !== '')) {
-          if ((typeof vm.credentials.newPassword !== 'undefined') && (vm.credentials.newPassword !== vm.credentials.verifyPassword)) {
+        if ((typeof vm.credentials.verifyPassword !== 'undefined') &&
+          (vm.credentials.verifyPassword.trim() !== '')) {
+          if ((typeof vm.credentials.newPassword !== 'undefined') &&
+            (vm.credentials.newPassword !== vm.credentials.verifyPassword)) {
             res &= false;
-            vm.messages.check = "Password are no the same";
+            vm.messages.check = 'Password are no the same';
           } else {
             res &= true;
             vm.messages.check = null;
           }
         } else {
           res &= false;
-          vm.messages.check = "Please insert again new account password";
+          vm.messages.check = 'Please insert again new account password';
         }
       }
 
       return res;
     }
-
   }
-})();
+}());

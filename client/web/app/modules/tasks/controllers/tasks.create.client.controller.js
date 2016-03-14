@@ -1,35 +1,32 @@
-(function() {
-    'use strict';
+(function () {
+  'use strict';
 
-    angular
-        .module('core')
-        .controller('CreateTasksController', CreateTasksController);
+  angular
+    .module('core')
+    .controller('CreateTasksController', CreateTasksController);
 
-    CreateTasksController.$inject = ['Tasks', 'Alert'];
+  CreateTasksController.$inject = ['Tasks', 'Alert'];
 
-    /* @ngInject */
-    function CreateTasksController(Tasks, Alert) {
-        var vm = this;
-        vm.task = {
-          title: ''
-        };
-        vm.create = create;
+  function CreateTasksController(Tasks, Alert) {
+    var vm = this;
+    vm.task = {
+      title: '',
+    };
+    vm.create = create;
 
-        ////////////////
+    function create() {
+      Tasks.create(vm.task)
+        .then(successCreate)
+        .catch(failedCreate);
 
-        function create() {
-          Tasks.create(vm.task)
-            .then(successCreate)
-            .catch(failedCreate);
+      function successCreate(task) {
+        Alert.display('Success', 'Success');
+        vm.task = task;
+      }
 
-          function successCreate(task) {
-            Alert.display('Success', 'Success');
-            vm.task = task;
-          }
-
-          function failedCreate(err) {
-            Alert.display('Error', err);
-          }
-        }
+      function failedCreate(err) {
+        Alert.display('Error', err);
+      }
     }
-})();
+  }
+}());

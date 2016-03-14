@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -10,11 +10,8 @@
   function Sanitize($sce) {
     return SanitizeFilter;
 
-    ////////////////
-
     function SanitizeFilter(htmlCode) {
       return $sce.trustAsHtml(htmlCode);
     }
   }
-
-})();
+}());

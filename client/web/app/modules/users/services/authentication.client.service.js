@@ -1,12 +1,12 @@
-(function() {
+(function () {
   'use strict';
 
-	// Authentication service for user variables
-	angular
-		.module('users')
-		.factory('Authentication', Authentication);
+  // Authentication service for user variables
+  angular
+    .module('users')
+    .factory('Authentication', Authentication);
 
-	Authentication.$inject = ['$rootScope', '$state', '$localStorage', 'MEANRestangular'];
+  Authentication.$inject = ['$rootScope', '$state', '$localStorage', 'MEANRestangular'];
 
   function Authentication($rootScope, $state, $localStorage, MEANRestangular) {
     var auth = {
@@ -17,20 +17,32 @@
       forgot: forgot,
       reset: reset,
       token: token,
-      getToken: getToken
+      getToken: getToken,
     };
 
-    if ($localStorage.token) {
-      // Update previous headers
-      var headers = MEANRestangular.defaultHeaders;
-      headers['Authorization'] = 'JWT ' + $localStorage.token;
-      // Set default headers
-      MEANRestangular.setDefaultHeaders(headers);
-    }
+    updateHeader();
 
     return auth;
 
     // implementations
+
+    function updateHeader() {
+      // Update previous headers
+      var headers = MEANRestangular.defaultHeaders;
+      if ($localStorage.token) {
+        headers.Authorization = 'JWT ' + $localStorage.token;
+        // Set default headers
+        MEANRestangular.setDefaultHeaders(headers);
+      }
+    }
+
+    function removeHeader() {
+      // Update previous headers
+      var headers = MEANRestangular.defaultHeaders;
+      headers.Authorization = undefined;
+      // Set default headers
+      MEANRestangular.setDefaultHeaders(headers);
+    }
 
     function getToken() {
       return $localStorage.token;
@@ -49,11 +61,7 @@
         auth.user = response.user;
         $localStorage.user = response.user;
         $localStorage.token = response.token;
-        // Update previous headers
-        var headers = MEANRestangular.defaultHeaders;
-        headers['Authorization'] = 'JWT ' + $localStorage.token;
-        // Set default headers
-        MEANRestangular.setDefaultHeaders(headers);
+        updateHeader();
 
         // broadcast user logged message and user data
         $rootScope.$broadcast('user-login', response.user);
@@ -62,7 +70,7 @@
       }
 
       function loginFailed(err) {
-        throw 'Login Failed';
+        throw err;
       }
     }
 
@@ -76,11 +84,7 @@
       delete $localStorage.getstated;
       delete $localStorage.uuid;
 
-      // Update previous headers
-      var headers = MEANRestangular.defaultHeaders;
-      headers['Authorization'] = undefined;
-      // Set default headers
-      MEANRestangular.setDefaultHeaders(headers);
+      removeHeader();
 
       $state.go('home');
 
@@ -129,8 +133,8 @@
      * param token: password reset token
      * param credentials : object {password: password}
      */
-    function reset(token, credentials) {
-      return MEANRestangular.one('auth', 'reset').post(token, credentials)
+    function reset(paramToken, credentials) {
+      return MEANRestangular.one('auth', 'reset').post(paramToken, credentials)
         .then(resetCompleted)
         .catch(resetFailed);
 
@@ -147,8 +151,8 @@
      * Password reset token validation
      * param token: token to validate
      */
-    function token(token) {
-      return MEANRestangular.one('auth', 'reset').customGET(token)
+    function token(paramToken) {
+      return MEANRestangular.one('auth', 'reset').customGET(paramToken)
         .then(validateCompleted)
         .catch(validateFailed);
 
@@ -161,5 +165,4 @@
       }
     }
   }
-
-})();
+}());

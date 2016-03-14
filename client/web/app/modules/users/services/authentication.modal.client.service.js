@@ -1,18 +1,18 @@
-(function() {
+(function () {
   'use strict';
 
-	// Authentication service for user variables
-	angular
-		.module('users')
-		.factory('AuthenticationModal', AuthenticationModal);
+  // Authentication service for user variables
+  angular
+    .module('users')
+    .factory('AuthenticationModal', AuthenticationModal);
 
-	AuthenticationModal.$inject = ['$uibModal'];
+  AuthenticationModal.$inject = ['$uibModal'];
 
   function AuthenticationModal($uibModal) {
     var authM = {
       openLogin: openLogin,
       openSignup: openSignup,
-      openRecovery: openRecovery
+      openRecovery: openRecovery,
     };
 
     return authM;
@@ -58,4 +58,4 @@
       return modalInstance;
     }
   }
-})();
+}());

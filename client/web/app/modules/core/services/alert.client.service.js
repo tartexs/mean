@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,15 +7,12 @@
 
   Alert.$inject = ['$uibModal'];
 
-  /* @ngInject */
   function Alert($uibModal) {
     var service = {
       display: display,
-      confirm: confirm
+      confirm: confirm,
     };
     return service;
-
-    ////////////////
 
     function display(title, content) {
       var modalInstance = $uibModal.open({
@@ -29,8 +26,8 @@
           },
           content: function () {
             return content;
-          }
-        }
+          },
+        },
       });
 
       return modalInstance;
@@ -51,12 +48,11 @@
           },
           callback: function () {
             return callback;
-          }
-        }
+          },
+        },
       });
 
       return modalInstance;
     }
-
   }
-})();
+}());

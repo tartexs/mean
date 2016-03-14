@@ -1,14 +1,24 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('users')
     .controller('SignupController', SignupController);
 
-  SignupController.$inject = ['$timeout', '$state', '$uibModalInstance', 'AuthenticationModal', 'Authentication'];
+  SignupController
+  .$inject = ['$timeout',
+              '$state',
+              '$uibModalInstance',
+              'AuthenticationModal',
+              'Authentication',
+              'Alert'];
 
-  /* @ngInject */
-  function SignupController($timeout, $state, $uibModalInstance, AuthenticationModal, Authentication) {
+  function SignupController($timeout,
+                            $state,
+                            $uibModalInstance,
+                            AuthenticationModal,
+                            Authentication,
+                            Alert) {
     var vm = this;
     // signup button status
     vm.enabled = true;
@@ -18,29 +28,31 @@
       email: undefined,
       password: undefined,
       error: undefined,
-      success: undefined
+      success: undefined,
     };
     // error messages
     vm.messages = {
-      location: "",
-      email: "",
-      address: "",
-      name: "",
-      date: ""
-    }
+      location: '',
+      email: '',
+      address: '',
+      name: '',
+      date: '',
+    };
     // functions
     vm.signup = signup;
     vm.isValidData = isValidData;
 
 
     // Avoid register page when user already login
-    if(Authentication.user)
+    if (Authentication.user) {
       $state.go('home');
+    }
 
     // do signup
     function signup() {
-      if (!isValidData() || !vm.enabled)
+      if (!isValidData() || !vm.enabled) {
         return;
+      }
 
       // disable signup
       vm.enabled = false;
@@ -49,14 +61,15 @@
         .then(signupCompleted)
         .catch(signupFailed);
 
-      function signupCompleted(user) {
-        // Success message
-        vm.messages.success = 'Account created. Automatic login into your account';
+      function signupCompleted(userParam) {
         // Do automatic login
         var user = {
           email: vm.credentials.email,
-          password: vm.credentials.password
+          password: vm.credentials.password,
         };
+
+        // Success message
+        vm.messages.success = 'Account created. Automatic login into your account';
 
         // Try to login new user
         Authentication.login(user)
@@ -65,15 +78,19 @@
 
         // If login failed alert an error
         function loginFailed(err) {
-          $loading.close(function(){
-            Alert.display("Error", "An error occurred when try to login into your account, please try manually").result
-              .then(AuthenticationModal.openLogin)
-              .catch(AuthenticationModal.openLogin);
-          });
+          var message = '';
+          message += 'An error occurred when try to login ';
+          message += 'into your account, please try manually';
+
+          Alert
+            .display('Error', message)
+            .result
+            .then(AuthenticationModal.openLogin)
+            .catch(AuthenticationModal.openLogin);
         }
 
         // When login completed close signup modal
-        function loginCompleted(user) {
+        function loginCompleted() {
         }
       }
 
@@ -90,11 +107,14 @@
      * Check if the form has valid data
      */
     function isValidData(field) {
-      // Clear global error message
-      vm.messages.error = null;
-
       // validation result
       var res = true;
+      // Email validation
+      var regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+
+      // Clear global error message
+      vm.messages.error = null;
 
       // Validate Name
       if ((field && field === 'name') || !field) {
@@ -103,12 +123,9 @@
           vm.messages.name = null;
         } else {
           res &= false;
-          vm.messages.name = "Please insert your name";
+          vm.messages.name = 'Please insert your name';
         }
       }
-
-      // Email validation
-      var regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
       // Validate Email
       if ((field && field === 'email') || !field) {
@@ -117,22 +134,23 @@
           vm.messages.email = null;
         } else {
           res &= false;
-          vm.messages.email = "Please insert a valid email address";
+          vm.messages.email = 'Please insert a valid email address';
         }
       }
 
       // Validate Password
       if ((field && field === 'password') || !field) {
-        if ((typeof vm.credentials.password !== 'undefined') && (vm.credentials.password.trim() !== '')) {
+        if ((typeof vm.credentials.password !== 'undefined') &&
+            (vm.credentials.password.trim() !== '')) {
           res &= true;
           vm.messages.password = null;
         } else {
           res &= false;
-          vm.messages.password = "Please insert your account password";
+          vm.messages.password = 'Please insert your account password';
         }
       }
 
       return res;
     }
   }
-})();
+}());

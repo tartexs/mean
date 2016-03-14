@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -10,7 +10,7 @@
 
   function AuthInterceptor($q, $injector, $rootScope) {
     return {
-      responseError: function(rejection) {
+      responseError: function (rejection) {
         if (!rejection.config.ignoreAuthModule) {
           switch (rejection.status) {
             case 401:
@@ -20,12 +20,13 @@
             case 403:
               $injector.get('$state').transitionTo('home');
               break;
+            default:
+              break;
           }
         }
         // otherwise, default behaviour
         return $q.reject(rejection);
-      }
+      },
     };
   }
-
-})();
+}());

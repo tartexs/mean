@@ -1,25 +1,28 @@
-(function(ApplicationConfiguration) {
+(function (ApplicationConfiguration) {
   'use strict';
 
-  //Start by defining the main module and adding the module dependencies
+  // Start by defining the main module and adding the module dependencies
   angular
-    .module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
+    .module(ApplicationConfiguration.applicationModuleName,
+            ApplicationConfiguration.applicationModuleVendorDependencies);
 
-  //Then define the init function for starting up the application
+  // Then define the init function for starting up the application
   angular
     .element(document)
     .ready(AngularReady);
 
   function AngularReady() {
-    //Fixing facebook bug with redirect
+    var scroll;
+
+    // Fixing facebook bug with redirect
     if (window.location.hash && window.location.hash === '#_=_') {
       if (window.history && history.pushState) {
         window.history.pushState('', document.title, window.location.pathname);
       } else {
         // Prevent scrolling by storing the page's current scroll offset
-        var scroll = {
+        scroll = {
           top: document.body.scrollTop,
-          left: document.body.scrollLeft
+          left: document.body.scrollLeft,
         };
         window.location.hash = '';
         // Restore the scroll offset, should be flicker free
@@ -28,8 +31,7 @@
       }
     }
 
-    //Then init the app
+    // Then init the app
     angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
-  }    
-
-})(ApplicationConfiguration);
+  }
+}(ApplicationConfiguration));

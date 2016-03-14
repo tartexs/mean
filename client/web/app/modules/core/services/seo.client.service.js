@@ -1,44 +1,42 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('core')
     .factory('Seo', Seo);
-      
+
   Seo.$inject = [];
 
-  /* @ngInject */
   function Seo() {
     var self = this;
-
-    self.title = 'Mean';
-    self.description = 'mean relational boilerplate';
-
     var service = {
       getTitle: getTitle,
       setTitle: setTitle,
       getDescription: getDescription,
-      setDescription: setDescription
+      setDescription: setDescription,
     };
 
+    self.title = 'Mean';
+    self.description = 'mean relational boilerplate';
+
     return service;
-    
+
     // declarations
     //
-    function getTitle () {
+    function getTitle() {
       return self.title;
     }
 
-    function setTitle (title) {
+    function setTitle(title) {
       self.title = title;
     }
 
-    function getDescription () {
+    function getDescription() {
       return self.description;
     }
 
-    function setDescription (description) {
+    function setDescription(description) {
       self.description = description;
     }
   }
-})();
+}());

@@ -1,4 +1,4 @@
-(function(ApplicationConfiguration) {
+(function (ApplicationConfiguration) {
   'use strict';
 
   // Setting HTML5 Location Mode
@@ -12,4 +12,4 @@
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('AuthInterceptor');
   }
-})(ApplicationConfiguration);
+}(ApplicationConfiguration));

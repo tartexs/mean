@@ -167,8 +167,6 @@ module.exports = app => {
   .delete((req, res) => {
     app.services.tasks.destroy(req.params.id, req.user)
       .then(result => res.sendStatus(204))
-      .catch(error => {
-        res.status(412).json({ msg: error.message });
-      });
+      .catch(error => res.status(412).json({ msg: error.message }));
   });
 };

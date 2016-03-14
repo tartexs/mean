@@ -1,5 +1,23 @@
 module.exports = app => {
   /**
+   * Users policy
+   * ACL configuration
+   */
+  app.acl.allow([{
+    roles: ['user'],
+    allows: [{
+      resources: '/api/v1/users/me',
+      permissions: ['get', 'delete'],
+    }],
+  }, {
+    roles: ['guest'],
+    allows: [{
+      resources: '/api/v1/users',
+      permissions: ['post'],
+    }],
+  }]);
+
+  /**
    * @api {get} /users/me Return the authenticated user's data
    * @apiGroup User
    * @apiHeader {String} Authorization Token of authenticated user
@@ -18,9 +36,7 @@ module.exports = app => {
    * @apiErrorExample {json} Find error
    *    HTTP/1.1 412 Precondition Failed
    */
-  app.route('/api/v1/users/me')
-  .all(app.auth.authenticate())
-  .get((req, res) => {
+  app.get('/api/v1/users/me', app.acl.checkRoles, (req, res) => {
     app.services.users.findById(req.user.id)
       .then(result => res.json(result))
       .catch(error => {
@@ -39,9 +55,7 @@ module.exports = app => {
    * @apiErrorExample {json} Delete error
    *    HTTP/1.1 412 Precondition Failed
    */
-  app.route('/api/v1/users/me')
-  .all(app.auth.authenticate())
-  .delete((req, res) => {
+  app.delete('/api/v1/users/me', app.acl.checkRoles, (req, res) => {
     app.services.users.destroy(req.user.id)
       .then(result => res.sendStatus(204))
       .catch(error => {
@@ -80,7 +94,7 @@ module.exports = app => {
    * @apiErrorExample {json} Register error
    *    HTTP/1.1 412 Precondition Failed
    */
-  app.post('/api/v1/users', (req, res) => {
+  app.post('/api/v1/users', app.acl.checkRoles, (req, res) => {
     delete req.body.role;
     app.services.users.create(req.body)
       .then(result => res.json(result))

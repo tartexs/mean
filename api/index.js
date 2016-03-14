@@ -9,6 +9,7 @@ consign({
 })
   .include('config/config.js')
   .then('db.js')
+  .then('acl.js')
   .then('auth.js')
   .then('config/middlewares.js')
   .then('services')

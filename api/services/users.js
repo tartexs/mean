@@ -4,7 +4,7 @@ module.exports = app => {
 
   service.findById = (id) => {
     return Users.findById(id, {
-      attributes: ['id', 'name', 'email'],
+      attributes: ['id', 'name', 'email', 'role'],
     });
   };
 

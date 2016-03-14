@@ -8,6 +8,8 @@ import del from 'del';
 import mocha from 'gulp-mocha';
 import {stream as wiredep} from 'wiredep';
 import modRewrite  from 'connect-modrewrite';
+import childProcess from 'child_process';
+
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -46,7 +48,16 @@ const testLintOptions = {
 };
 
 gulp.task('api:lint', lint('api/**/**/*.js', testLintOptions));
+
+//gulp lint has some bugs with the fix option
+gulp.task('api:lint:fix', (done) => {
+  childProcess.exec('npm run lint:fix', (error, stdout, stderr) => {
+    done(error || stderr);
+  });
+});
+
 gulp.task('web:lint', lint('client/web/app/modules/**/*.js', testLintOptions));
+
 gulp.task('lint', ['api:lint', 'web:lint']);
 
 gulp.task('html', ['styles'], () => {
@@ -217,13 +228,13 @@ gulp.task('build', ['lint', 'angulartemplates', 'html', 'images', 'fonts', 'extr
  * 
  */
 
-gulp.task('api:serve', ['lint'],() => {
+gulp.task('api:serve', ['api:lint'],() => {
   gulpNodemon({ 
     script: 'api/start.js',
   });
 });
 
-gulp.task('api:cluster', ['lint'],() => {
+gulp.task('api:cluster', ['api:lint'],() => {
   gulpNodemon({ 
     script: 'api/start_clusters.js',
   });

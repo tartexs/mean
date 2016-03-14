@@ -24,4 +24,12 @@ module.exports = app => {
     next();
   });
   app.use(express.static('public'));
+
+  app.use((req, res, next) => {
+    app.auth.authenticate((authErr, user, info) => {
+      req.user = user;
+      next(authErr);
+    })(req, res, next);
+  });
 };
+

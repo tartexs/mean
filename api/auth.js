@@ -15,6 +15,7 @@ module.exports = app => {
             return done(null, {
               id: user.id,
               email: user.email,
+              role: user.role,
             });
           }
           return done(null, false);
@@ -26,8 +27,8 @@ module.exports = app => {
     initialize: () => {
       return passport.initialize();
     },
-    authenticate: () => {
-      return passport.authenticate('jwt', cfg.jwtSession);
+    authenticate: (cb) => {
+      return passport.authenticate('jwt', cfg.jwtSession, cb);
     },
   };
 };

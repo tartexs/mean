@@ -7,7 +7,7 @@
     "start": "npm run apidoc && npm run clusters",
     "clusters": "babel-node api/clusters.server.js",
     "dev": "better-npm-run dev",
-    "lint": "eslint api/",
+    "lint": "eslint client/web/app/modules",
     "lint:fix": "npm run lint -- --fix",
     "test": "NODE_ENV=test mocha api/tests/**/*.js  --require api/tests/helpers --compilers js:babel-register --reporter spec",
     "apidoc": "apidoc -i api/routes/ -o client/web/dist/apidoc",

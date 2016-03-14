@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -7,17 +7,14 @@
 
   ModalAlertController.$inject = ['$uibModalInstance', 'title', 'content'];
 
-  /* @ngInject */
   function ModalAlertController($uibModalInstance, title, content) {
     var vm = this;
     vm.close = closeModal;
     vm.title = title;
     vm.content = content;
 
-    //
-    
     function closeModal() {
       $uibModalInstance.dismiss();
     }
   }
-})();
+}());

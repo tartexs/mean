@@ -1,10 +1,13 @@
 'use strict';
 
 // Init the application configuration module for AngularJS application
+/* exported ApplicationConfiguration */
+/* exported */
 var ApplicationConfiguration = (function () {
   // Init module configuration options
   var applicationModuleName = 'meanweb';
-  var applicationModuleVendorDependencies = ['ui.router', 'ui.utils', 'ui.bootstrap', 'ngStorage', 'restangular', 'ngAnimate', 'angular-loading-bar'];
+  var applicationModuleVendorDependencies = ['ui.router', 'ui.utils', 'ui.bootstrap',
+    'ngStorage', 'restangular', 'ngAnimate', 'angular-loading-bar'];
 
   // Add a new vertical module
   var registerModule = function (moduleName, dependencies) {
@@ -18,6 +21,8 @@ var ApplicationConfiguration = (function () {
   return {
     applicationModuleName: applicationModuleName,
     applicationModuleVendorDependencies: applicationModuleVendorDependencies,
-    registerModule: registerModule
+    registerModule: registerModule,
   };
-})();
+}());
+
+console.log(ApplicationConfiguration.applicationModuleName);

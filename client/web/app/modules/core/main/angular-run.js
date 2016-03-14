@@ -1,4 +1,4 @@
-(function(ApplicationConfiguration) {
+(function (ApplicationConfiguration) {
   'use strict';
 
   angular
@@ -8,30 +8,33 @@
   AngularRun.$inject = ['$rootScope', '$state', 'Authentication'];
 
   function AngularRun($rootScope, $state, Authentication) {
-
-
-    FastClick.attach(document.body);
     // Check authentication before changing state
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeStart', checkPermissions);
+
+    function checkPermissions(event, toState, toParams, fromState, fromParams) {
+      var allowed = false;
+      var index = 0;
+
       if (toState.data && toState.data.roles && toState.data.roles.length > 0) {
-        var allowed = false;
-        toState.data.roles.forEach(function (role) {
-          if ((role === 'guest') || (Authentication.user && Authentication.user.roles !== undefined && Authentication.user.roles.indexOf(role) !== -1)) {
+        while (!allowed && index < toState.data.roles.length) {
+          if ((toState.data.roles[index] === 'guest') ||
+            (Authentication.user && Authentication.user.roles !== undefined &&
+              Authentication.user.roles.indexOf(toState.data.roles[index]) !== -1)) {
             allowed = true;
-            return true;
           }
-        });
+          index++;
+        }
 
         if (!allowed) {
           event.preventDefault();
-          if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
-            $state.go('home');//forbiden
+          if (Authentication.user !== undefined &&
+            typeof Authentication.user === 'object') {
+            $state.go('home');// forbiden
           } else {
             $state.go('home');
           }
         }
       }
-    });
-
+    }
   }
-})(ApplicationConfiguration);
+}(ApplicationConfiguration));

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   // Setting up route
@@ -20,19 +20,6 @@
       abstract: false,
       templateUrl: prefix + 'home.client.template.html',
       controller: 'HomeController as hc',
-    })
-    //.state('tasks', {
-      //abstract: true,
-      //url: '/tasks'
-    //})
-    .state('tasksCreate', {
-      url: '/tasks/create',
-      abstract: false,
-      templateUrl: prefix + 'create.client.template.html',
-      controller: 'CreateTasksController as cc',
-    })
-
-    ;
-
+    });
   }
-})();
+}());

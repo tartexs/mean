@@ -29,6 +29,14 @@ module.exports = (sequelize, DataType) => {
         notEmpty: true,
       },
     },
+    role: {
+      type: DataType.STRING,
+      allowNull: false,
+      defaultValue: 'user',
+      validate: {
+        notEmpty: true,
+      },
+    },
   }, {
     hooks: {
       beforeCreate: user => {

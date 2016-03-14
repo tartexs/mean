@@ -2,6 +2,7 @@ import https from 'https';
 import fs from 'fs';
 
 module.exports = app => {
+  console.log('Node Environment', process.env.NODE_ENV);
   if (process.env.NODE_ENV !== 'test') {
     const credentials = {
       key: fs.readFileSync('api/config/certs/mean.key', 'utf8'),
@@ -10,11 +11,10 @@ module.exports = app => {
     app.db.sequelize.sync().done(() => {
       https.createServer(credentials, app)
         .listen(app.get('port'), () => {
-          console.log(`NTask API - Port ${app.get('port')}`);
+          console.log(`MEAN API - Port ${app.get('port')}`);
         });
     });
-  }
-  else {
-    app.db.sequelize.sync().done(); 
+  } else {
+    app.db.sequelize.sync().done();
   }
 };

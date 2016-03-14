@@ -8,7 +8,9 @@
     "flow-vars"
   ],
   "env"     : {
-    "node": true
+    "es6": true,
+    "node": true,
+    "mocha": true
   },
   "rules": {
     "semi" : [2, "always"],

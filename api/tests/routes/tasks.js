@@ -57,7 +57,7 @@ describe('Routes: Tasks', () => {
           .expect(200)
           .end((err, res) => {
             expect(res.body.title).to.eql('Run');
-            expect(res.body.done).to.be.false;
+            expect(res.body.done).to.be.false();
             done(err);
           });
       });

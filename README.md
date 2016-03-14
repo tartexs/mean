@@ -48,3 +48,10 @@ If you want to have a better understanding of the architecture, I recommend you 
 ## Credit
 
 This project is base on [node-express-sequelize-es2015](https://github.com/ArnaudValensi/node-express-sequelize-es2015)
+
+
+## To Do
+1. Roles
+2. ACL
+3. Tests
+4. Docker

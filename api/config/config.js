@@ -1,7 +1,8 @@
 module.exports = app => {
-  const env = process.env.NODE_ENV;
-  if (env) {
-    return require(`./env/${env}.js`);
+  let env = process.env.NODE_ENV;
+  if (!env) {
+    env = process.env.NODE_ENV = 'development';
   }
-  return require('./env/development.js');
+
+  return require(`./env/${env}.js`);
 };

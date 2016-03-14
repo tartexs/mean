@@ -1,54 +1,53 @@
 module.exports = app => {
-  const Users = app.db.models.Users;
-
+  /**
+   * @api {get} /users/me Return the authenticated user's data
+   * @apiGroup User
+   * @apiHeader {String} Authorization Token of authenticated user
+   * @apiHeaderExample {json} Header
+   *    {"Authorization": "JWT xyz.abc.123.hgf"}
+   * @apiSuccess {Number} id User id
+   * @apiSuccess {String} name User name
+   * @apiSuccess {String} email User email
+   * @apiSuccessExample {json} Success
+   *    HTTP/1.1 200 OK
+   *    {
+   *      "id": 1,
+   *      "name": "John Connor",
+   *      "email": "john@connor.net"
+   *    }
+   * @apiErrorExample {json} Find error
+   *    HTTP/1.1 412 Precondition Failed
+   */
   app.route('/api/v1/users/me')
-    .all(app.auth.authenticate())
-    /**
-     * @api {get} /user Return the authenticated user's data
-     * @apiGroup User
-     * @apiHeader {String} Authorization Token of authenticated user
-     * @apiHeaderExample {json} Header
-     *    {"Authorization": "JWT xyz.abc.123.hgf"}
-     * @apiSuccess {Number} id User id
-     * @apiSuccess {String} name User name
-     * @apiSuccess {String} email User email
-     * @apiSuccessExample {json} Success
-     *    HTTP/1.1 200 OK
-     *    {
-     *      "id": 1,
-     *      "name": "John Connor",
-     *      "email": "john@connor.net"
-     *    }
-     * @apiErrorExample {json} Find error
-     *    HTTP/1.1 412 Precondition Failed
-     */
-    .get((req, res) => {
-      Users.findById(req.user.id, {
-        attributes: ['id', 'name', 'email'],
-      })
+  .all(app.auth.authenticate())
+  .get((req, res) => {
+    app.services.users.findById(req.user.id)
       .then(result => res.json(result))
       .catch(error => {
         res.status(412).json({ msg: error.message });
       });
-    })
-    /**
-     * @api {delete} /user Deletes an authenticated user
-     * @apiGroup User
-     * @apiHeader {String} Authorization Token of authenticated user
-     * @apiHeaderExample {json} Header
-     *    {"Authorization": "JWT xyz.abc.123.hgf"}
-     * @apiSuccessExample {json} Success
-     *    HTTP/1.1 204 No Content
-     * @apiErrorExample {json} Delete error
-     *    HTTP/1.1 412 Precondition Failed
-     */
-    .delete((req, res) => {
-      Users.destroy({ where: { id: req.user.id } })
-        .then(result => res.sendStatus(204))
-        .catch(error => {
-          res.status(412).json({ msg: error.message });
-        });
-    });
+  });
+
+  /**
+   * @api {delete} /users/me Deletes an authenticated user
+   * @apiGroup User
+   * @apiHeader {String} Authorization Token of authenticated user
+   * @apiHeaderExample {json} Header
+   *    {"Authorization": "JWT xyz.abc.123.hgf"}
+   * @apiSuccessExample {json} Success
+   *    HTTP/1.1 204 No Content
+   * @apiErrorExample {json} Delete error
+   *    HTTP/1.1 412 Precondition Failed
+   */
+  app.route('/api/v1/users/me')
+  .all(app.auth.authenticate())
+  .delete((req, res) => {
+    app.services.users.destroy(req.user.id)
+      .then(result => res.sendStatus(204))
+      .catch(error => {
+        res.status(412).json({ msg: error.message });
+      });
+  });
 
   /**
    * @api {post} /users Register a new user
@@ -82,7 +81,8 @@ module.exports = app => {
    *    HTTP/1.1 412 Precondition Failed
    */
   app.post('/api/v1/users', (req, res) => {
-    Users.create(req.body)
+    delete req.body.role;
+    app.services.users.create(req.body)
       .then(result => res.json(result))
       .catch(error => {
         res.status(412).json({ msg: error.message });

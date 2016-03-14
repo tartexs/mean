@@ -3,9 +3,9 @@ import consign from 'consign';
 
 const app = express();
 
-consign({ 
+consign({
   verbose: false,
-  cwd: 'api' 
+  cwd: 'api',
 })
   .include('config/config.js')
   .then('db.js')

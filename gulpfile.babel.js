@@ -38,13 +38,16 @@ function lint(files, options) {
 }
 const testLintOptions = {
   env: {
-    mocha: true
-  }
+    mocha: true,
+    node:  true,
+    //es6:   true    
+  },
+  global: ['app', 'expect', 'request', 'by', 'element', 'browser']
 };
 
-gulp.task('lint', lint('app/**/**/*.js'));
-gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
-
+gulp.task('api:lint', lint('api/**/**/*.js', testLintOptions));
+gulp.task('web:lint', lint('client/web/app/modules/**/*.js', testLintOptions));
+gulp.task('lint', ['api:lint', 'web:lint']);
 
 gulp.task('html', ['styles'], () => {
   const assets = $.useref.assets({searchPath: ['.tmp', 'app', 'client/web']});
@@ -226,8 +229,9 @@ gulp.task('api:cluster', ['lint'],() => {
   });
 });
 
-gulp.task('api:tests', ['lint'], (done) => {
+gulp.task('api:tests', ['api:lint'], (done) => {
   let error;
+  process.env.NODE_ENV = 'test';
   return gulp.src('api/tests/**/*.js', {
     read: false
   })
@@ -236,12 +240,13 @@ gulp.task('api:tests', ['lint'], (done) => {
     reporter: 'spec',
     slow: 5000,
     timeout: 10000,
-    global: 'NODE_ENV=test'
+    //global: 'NODE_ENV=test'
   }))
   .once('error', () => {
-    process.exit(1);
+    //process.exit(1);
   })
   .once('end', () => {
+    process.env.NODE_ENV = 'development';
     process.exit();
   });
 });

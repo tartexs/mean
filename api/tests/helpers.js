@@ -1,6 +1,9 @@
 import supertest from 'supertest';
 import chai from 'chai';
+import dirtyChai from 'dirty-chai';
 import app from '../index.js';
+
+chai.use(dirtyChai);
 
 global.app = app;
 global.request = supertest(app);

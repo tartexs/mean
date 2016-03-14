@@ -12,6 +12,14 @@
     "node": true,
     "mocha": true
   },
+  globals: {
+    app: true,
+    expect: true,
+    request: true,
+    by: true,
+    element: true,
+    browser: true
+  },
   "rules": {
     "semi" : [2, "always"],
     "no-param-reassign": [2, {"props": false}],

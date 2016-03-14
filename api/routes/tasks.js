@@ -1,5 +1,38 @@
 module.exports = app => {
   /**
+   * Tasks policy
+   * ACL configuration
+   */
+  app.acl.allow([{
+    roles: ['admin'],
+    allows: [{
+      resources: '/api/v1/tasks',
+      permissions: '*',
+    }, {
+      resources: '/api/v1/tasks/:taskId',
+      permissions: '*',
+    }],
+  }, {
+    roles: ['user'],
+    allows: [{
+      resources: '/api/v1/tasks',
+      permissions: ['get', 'post'],
+    }, {
+      resources: '/api/v1/tasks/:taskId',
+      permissions: '*',
+    }],
+  }, {
+    roles: ['guest'],
+    allows: [{
+      resources: '/api/v1/tasks',
+      permissions: ['get'],
+    }, {
+      resources: '/api/v1/tasks/:taskId',
+      permissions: ['get'],
+    }],
+  }]);
+
+  /**
    * @api {get} /tasks List the user's tasks
    * @apiGroup Tasks
    * @apiHeader {String} Authorization Token of authenticated user
@@ -26,9 +59,7 @@ module.exports = app => {
    *    HTTP/1.1 412 Precondition Failed
    */
   app
-  .route('/api/v1/tasks')
-  .all(app.auth.authenticate())
-  .get((req, res) => {
+  .get('/api/v1/tasks', (req, res) => {
     app.services.tasks.getAll(req.user)
       .then(result => res.json(result))
       .catch(error => {
@@ -66,9 +97,7 @@ module.exports = app => {
    *    HTTP/1.1 412 Precondition Failed
    */
   app
-  .route('/api/v1/tasks')
-  .all(app.auth.authenticate())
-  .post((req, res) => {
+  .post('/api/v1/tasks', app.acl.checkRoles, (req, res) => {
     req.body.user_id = req.user.id;
     app.services.tasks.create(req.body)
       .then(result => res.json(result))
@@ -105,10 +134,8 @@ module.exports = app => {
    *    HTTP/1.1 412 Precondition Failed
    */
   app
-  .route('/api/v1/tasks/:id')
-  .all(app.auth.authenticate())
-  .get((req, res) => {
-    app.services.tasks.findById(req.params.id, req.user)
+  .get('/api/v1/tasks/:taskId', app.acl.checkRoles, (req, res) => {
+    app.services.tasks.findById(req.params.taskId, req.user)
       .then(result => {
         if (result) {
           res.json(result);
@@ -140,10 +167,8 @@ module.exports = app => {
    *    HTTP/1.1 412 Precondition Failed
    */
   app
-  .route('/api/v1/tasks/:id')
-  .all(app.auth.authenticate())
-  .put((req, res) => {
-    app.services.tasks.update(req.params.id, req.body, req.user)
+  .put('/api/v1/tasks/:taskId', app.acl.checkRoles, (req, res) => {
+    app.services.tasks.update(req.params.taskId, req.body, req.user)
       .then(result => res.sendStatus(204))
       .catch(error => res.status(412).json({ msg: error.message }));
   });
@@ -162,10 +187,8 @@ module.exports = app => {
    *    HTTP/1.1 412 Precondition Failed
    */
   app
-  .route('/api/v1/tasks/:id')
-  .all(app.auth.authenticate())
-  .delete((req, res) => {
-    app.services.tasks.destroy(req.params.id, req.user)
+  .delete('/api/v1/tasks/:taskId', app.acl.checkRoles, (req, res) => {
+    app.services.tasks.destroy(req.params.taskId, req.user)
       .then(result => res.sendStatus(204))
       .catch(error => res.status(412).json({ msg: error.message }));
   });

@@ -173,7 +173,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('web:serve', ['styles', 'fonts'], () => {
+gulp.task('web:serve', ['web:lint', 'styles', 'fonts'], () => {
   browserSync({
     notify: false,
     port: 9000,

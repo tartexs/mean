@@ -179,7 +179,7 @@ gulp.task('web:serve', ['web:lint', 'styles', 'fonts'], () => {
     port: 9000,
     https: true,
     server: {
-      baseDir: ['.tmp', 'client/web/app'],
+      baseDir: ['.tmp', 'client/web/app', 'client/web'],
       middleware: [
           modRewrite([
               '!\\.\\w+$ /index.html [L]'
@@ -261,7 +261,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('client/web/app'));
 });
 
-gulp.task('build', ['lint', 'angulartemplates', 'html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['web:lint', 'angulartemplates', 'html', 'images', 'fonts', 'extras'], () => {
   return gulp.src('client/web/dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

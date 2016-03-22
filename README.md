@@ -16,6 +16,8 @@ A boilerplate using NodeJs, Express, Sequelize, Apidoc, Eslint, Mocha, Cluster a
 npm start  # Run the serveur in cluster mode (it also generate the apidoc)
 npm lint   # Check lint error using eslint
 gulp web:serve   # run web server
+gulp web:test:unit # run unit tests
+gulp web:test:e2e # run e2e tests
 gulp api:serve   # run api server
 gulp api:tests   # run mocha tests
 gulp api:docs # Generate the apidoc
